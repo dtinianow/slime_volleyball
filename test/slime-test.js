@@ -43,9 +43,9 @@ describe('Slime', function() {
     it('should be able to update position', function() {
       let slime = new Slime;
       assert.isFunction(slime.updatePosition);
-    })
-  })
-})
+    });
+  });
+});
 
 describe('Move', function() {
   context('Movement', function() {
@@ -54,9 +54,9 @@ describe('Move', function() {
       assert.equal(slime.x, 275);
       slime.move(5, 0);
       assert.equal(slime.x, 280);
-    })
-  })
-})
+    });
+  });
+});
 
 describe('Update Position', function() {
   context('changes position', function() {
