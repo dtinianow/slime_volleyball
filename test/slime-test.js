@@ -1,6 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const Slime = require('../lib/scripts/slime')
+const stub = require('./support/stub')
 
 describe('Slime', function() {
   context('with default attributes', function() {
@@ -62,14 +63,16 @@ describe('Update Position', function() {
   context('the user hits a key', function() {
     it('should move to the right on keystroke of right arrow', function() {
       let keysDown = {39: true};
-      let slime = new Slime({keysDown: keysDown});
+      let canvas = {width: 1100, height: 600}
+      let slime = new Slime({keysDown: keysDown, canvas: canvas});
       assert.equal(slime.x, 275);
       slime.updatePosition(37, 39);
       assert.equal(slime.x, 280);
     });
     it('should move to the left on keystroke of left arrow', function() {
       let keysDown = {37: true}
-      let slime = new Slime({keysDown: keysDown});
+      let canvas = {width: 1100, height: 600}
+      let slime = new Slime({keysDown: keysDown, canvas: canvas});
       assert.equal(slime.x, 275);
       slime.updatePosition(37, 39)
       assert.equal(slime.x, 270);
@@ -83,3 +86,33 @@ describe('Update Position', function() {
     });
   });
 });
+
+describe('Slime', function(){
+  context('with default attributes', function(){
+    it('should pass attributes to arc on render', function(){
+      let context = stub().of('arc').of('fill')
+      let slime = new Slime({context: context});
+      assert.equal(slime.context.arc.calls.length, 0)
+      slime.render();
+      assert.equal(slime.context.arc.calls.length, 1)
+      assert.equal(slime.context.arc.calls[0][0], 275)
+      assert.equal(slime.context.arc.calls[0][1], 600)
+      assert.equal(slime.context.arc.calls[0][2], 80)
+      assert.equal(slime.context.arc.calls[0][3], Math.PI)
+      assert.equal(slime.context.arc.calls[0][4], false)
+    })
+    it('should set fillStyle on render', function(){
+      let context = stub().of('arc').of('fill')
+      let slime = new Slime({context: context});
+      slime.render();
+      assert.equal(slime.context.fillStyle, 'red')
+    })
+    it('should fill on render', function(){
+      let context = stub().of('arc').of('fill')
+      let slime = new Slime({context: context});
+      assert.equal(slime.context.fill.calls.length, 0)
+      slime.render();
+      assert.equal(slime.context.fill.calls.length, 1)
+    })
+  })
+})
