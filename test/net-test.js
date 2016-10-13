@@ -1,6 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const Net = require('../lib/scripts/net')
+const stub = require('./support/stub')
 
 describe('Net', function() {
   context('with default attributes', function() {
@@ -42,8 +43,13 @@ describe('Net', function() {
 
 describe('Render', function() {
   context('the page loads', function() {
-    it.skip('should render the net', function() {
-      let net = new Net;
+    it('should render the net', function() {
+      var context = stub().of('fillRect').of('fill');
+      let net = new Net(context);
+      assert.equal(net.x, 545)
+      assert.equal(net.context.fillRect.calls.length, 0)
+      net.render();
+      assert.equal(net.context.fillRect.calls.length, 1)
     });
   });
 });
