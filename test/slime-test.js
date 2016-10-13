@@ -70,9 +70,8 @@ describe('Update Position', function() {
     it('should move to the left on keystroke of left arrow', function() {
       let keysDown = {37: true}
       let slime = new Slime({keysDown: keysDown});
-      console.log(slime)
       assert.equal(slime.x, 275);
-      slime.updatePosition()
+      slime.updatePosition(37, 39)
       assert.equal(slime.x, 270);
     });
     it('should not move without a keystroke', function() {
