@@ -48,7 +48,7 @@ describe('Slime', function() {
 });
 
 describe('Move', function() {
-  context('Movement', function() {
+  context('when the slimes moves', function() {
     it('should change x-coordinates', function() {
       let slime = new Slime;
       assert.equal(slime.x, 275);
@@ -59,26 +59,26 @@ describe('Move', function() {
 });
 
 describe('Update Position', function() {
-  context('changes position', function() {
+  context('the user hits a key', function() {
     it('should move to the right on keystroke of right arrow', function() {
-      let slime = new Slime;
-      let keysDown = {39: true}
+      let keysDown = {39: true};
+      let slime = new Slime({keysDown: keysDown});
       assert.equal(slime.x, 275);
-      slime.updatePosition(keysDown)
+      slime.updatePosition(37, 39);
       assert.equal(slime.x, 280);
     });
     it('should move to the left on keystroke of left arrow', function() {
-      let slime = new Slime;
       let keysDown = {37: true}
+      let slime = new Slime({keysDown: keysDown});
       assert.equal(slime.x, 275);
-      slime.updatePosition(keysDown)
+      slime.updatePosition(37, 39)
       assert.equal(slime.x, 270);
     });
     it('should not move without a keystroke', function() {
-      let slime = new Slime;
       let keysDown = {}
+      let slime = new Slime;
       assert.equal(slime.x, 275);
-      slime.updatePosition(keysDown)
+      slime.updatePosition(37, 39)
       assert.equal(slime.x, 275);
     });
   });
