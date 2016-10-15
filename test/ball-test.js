@@ -24,7 +24,7 @@ describe('Ball', function() {
 
 describe('Render', function() {
   context('Ball should be rendered', function() {
-    it('it appears on screen', function() {
+    xit('it appears on screen', function() {
       let context = stub().of('beginPath').of('arc').of('fill');
       let ball = new Ball({context: context})
       assert.equal(ball.context.arc.calls.length, 0)
