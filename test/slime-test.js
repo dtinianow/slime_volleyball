@@ -90,7 +90,7 @@ describe('Update Position', function() {
 describe('Slime', function(){
   context('with default attributes', function(){
     it('should pass attributes to arc on render', function(){
-      let context = stub().of('arc').of('fill')
+      let context = stub().of('beginPath').of('arc').of('fill')
       let slime = new Slime({context: context});
       assert.equal(slime.context.arc.calls.length, 0)
       slime.render();
@@ -102,13 +102,13 @@ describe('Slime', function(){
       assert.equal(slime.context.arc.calls[0][4], false)
     })
     it('should set fillStyle on render', function(){
-      let context = stub().of('arc').of('fill')
+      let context = stub().of('beginPath').of('arc').of('fill')
       let slime = new Slime({context: context});
       slime.render();
       assert.equal(slime.context.fillStyle, 'red')
     })
     it('should fill on render', function(){
-      let context = stub().of('arc').of('fill')
+      let context = stub().of('beginPath').of('arc').of('fill')
       let slime = new Slime({context: context});
       assert.equal(slime.context.fill.calls.length, 0)
       slime.render();
