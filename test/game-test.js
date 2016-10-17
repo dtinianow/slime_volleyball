@@ -9,7 +9,7 @@ const Scoreboard = require('../lib/scripts/scoreboard')
 describe('Game', function() {
   context('Can detect collisions', funciton () {
     it('knows the distance between the ball and slime', function() {
-      
+
 
     });
   })
