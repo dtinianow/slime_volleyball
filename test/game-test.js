@@ -7,7 +7,7 @@ const Net = require('../lib/scripts/net')
 const Scoreboard = require('../lib/scripts/scoreboard')
 
 describe('Game', function() {
-  context('Can detect collisions', funciton () {
+  context('Can detect collisions', function () {
     it('knows the distance between the ball and slime', function() {
 
 

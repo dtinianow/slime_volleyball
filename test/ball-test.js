@@ -10,14 +10,29 @@ describe('Ball', function() {
       let canvas = stub();
       let ball = new Ball({context: context, canvas: canvas});
       assert.isObject(ball);
-      assert.equal(ball.x, 275)
-      assert.equal(ball.y, 300)
-      assert.equal(ball.radius, 20)
-      assert.equal(ball.x_speed, 0)
-      assert.equal(ball.y_speed, 5)
-      assert.equal(ball.color, "white")
-      assert.equal(ball.context, context)
-      assert.equal(ball.canvas, canvas)
+      assert.equal(ball.x, 275);
+      assert.equal(ball.y, 300);
+      assert.equal(ball.radius, 20);
+      assert.equal(ball.x_speed, 0);
+      assert.equal(ball.y_speed, 5);
+      assert.equal(ball.color, "white");
+      assert.equal(ball.context, context);
+    })
+  })
+  context('with default functions', function() {
+    it('should be instantiated', function() {
+      let context = stub();
+      let canvas = stub();
+      let ball = new Ball({context: context, canvas: canvas});
+      assert.isFunction(ball.render);
+      assert.isFunction(ball.isTouchingSlime);
+      assert.isFunction(ball.bounce);
+      assert.isFunction(ball.isTouchingWall);
+      assert.isFunction(ball.isTouchingGround);
+      assert.isFunction(ball.isTouchingNet);
+      assert.isFunction(ball.isTouchingCeiling);
+      assert.isFunction(ball.resetAfterPoint);
+      assert.isFunction(ball.setSpeed);
     })
   })
 })
