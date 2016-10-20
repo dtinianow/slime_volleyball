@@ -24,6 +24,7 @@ describe('Game', function() {
       assert.equal(game.difficulty, "normal")
       assert.equal(game.isNewPoint, false)
     });
+  })
   context('With default functions', function () {
     it('should be instantiated', function() {
       let slime = new Slime;
@@ -47,6 +48,18 @@ describe('Game', function() {
       assert.isFunction(game.delayServe)
       assert.isFunction(game.collideWithWall)
       assert.isFunction(game.collideWithGround)
+      assert.isFunction(game.collideWithNet)
+      assert.isFunction(game.collideWithCeiling)
+      assert.isFunction(game.startNewMatch)
+      assert.isFunction(game.checkDifficulty)
+      assert.isFunction(game.startNormalMode)
+      assert.isFunction(game.returnToMainMenu)
+      assert.isFunction(game.insanePlayer1GamePoint)
+      assert.isFunction(game.insanePlayer2GamePoint)
+      assert.isFunction(game.startInsaneMode)
+      assert.isFunction(game.insaneSlimeCollision)
+      assert.isFunction(game.insaneBorderCollision)
+      assert.isFunction(game.insaneNetCollision)
     });
   })
 })
