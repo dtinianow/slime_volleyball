@@ -51,5 +51,66 @@ describe('Render', function() {
       assert.equal(ball.context.arc.calls[0][3], (Math.PI * 2))
       assert.equal(ball.context.arc.calls[0][4], false)
     })
+    it('it moves on screen', function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      assert.equal(ball.y, 300)
+      ball.movement();
+      assert.equal(ball.y, 305.8)
+      assert.equal(ball.x, 275)
+    })
+    it('it sets speed', function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      assert.equal(ball.y_speed, 5)
+      ball.difficulty = "insane"
+      ball.setSpeed("insane");
+      assert.equal(ball.y_speed, 25)
+      ball.difficulty = "normal"
+      ball.setSpeed("normal");
+      assert.equal(ball.y_speed, 5)
+    })
+    it('it resets after point', function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      ball.y = 400
+      ball.x_speed = 19
+      ball.resetAfterPoint("normal");
+      assert.equal(ball.y_speed, 5)
+      assert.equal(ball.y, 300)
+      assert.equal(ball.x_speed, 0)
+    })
+    it("it knows it's touching the ceiling", function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      ball.y = -100
+      assert.notStrictEqual(ball.isTouchingCeiling, true);
+    })
+    it("it knows it's touching the net", function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      ball.y = 800
+      ball.x = 550
+      assert.notStrictEqual(ball.isTouchingNet, true);
+    })
+    it("it knows it's touching the ground", function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      ball.y = 800
+      assert.notStrictEqual(ball.isTouchingNet, true);
+    })
+    it("it knows it's touching the wall", function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      ball.x = 1100
+      assert.notStrictEqual(ball.isTouchingNet, true);
+    })
+    it("it knows it's touching slime", function() {
+      let context = stub().of('beginPath').of('arc').of('fill');
+      let ball = new Ball({context: context})
+      ball.x = 225
+      ball.y = 800
+      assert.notStrictEqual(ball.isTouchingNet, true);
+    })
   })
 })
