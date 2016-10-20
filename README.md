@@ -2,6 +2,8 @@
 
 ## Game Play
 
+![](http://g.recordit.co/p24Lw2IgF3.gif)
+
 We built a modern version of the classic 2D game, Slime Volleyball.  It is a single page, client-side web application built in JavaScript and utilizing [Webpack] (https://github.com/webpack/webpack).
 
 Slime Volleyball is a two player game. The slime on the right of the screen is controlled using the arrow keys, and the slime on the left of the screen is controlled using the WASD keys. There is no time limit for game play. The first slime to score 7 points wins!
