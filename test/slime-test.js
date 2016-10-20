@@ -2,6 +2,7 @@ const chai = require('chai');
 const assert = chai.assert;
 const Slime = require('../lib/scripts/slime');
 const stub = require('./support/stub');
+const Ball = require('../lib/scripts/ball');
 
 describe('Slime', function() {
   context('with default attributes', function() {
@@ -129,6 +130,64 @@ describe('Slime', function(){
       let slime = new Slime({context: context});
       assert.equal(slime.context.fill.calls.length, 0);
       slime.render();
+    });
+    it('should pass attributes to arc on drawSlime', function(){
+      let context = stub().of('drawSlime').of('beginPath').of('arc').of('fill').of('closePath');
+      let slime = new Slime({context: context});
+      assert.equal(slime.context.arc.calls.length, 0);
+      slime.drawSlime();
+      assert.equal(slime.context.arc.calls.length, 1);
+      assert.equal(slime.context.arc.calls[0][0], 275);
+      assert.equal(slime.context.arc.calls[0][1], 600);
+      assert.equal(slime.context.arc.calls[0][2], 80);
+      assert.equal(slime.context.arc.calls[0][3], Math.PI);
+      assert.equal(slime.context.arc.calls[0][4], false);
+    });
+    it('should set fillStyle on drawEyes', function(){
+      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+      let slime = new Slime({context: context});
+      assert.equal(slime.context.arc.calls.length, 0);
+      slime.drawEyes();
+      assert.equal(slime.context.fillStyle, 'white');
+
+    });
+    it('should drawPlayer1eye', function(){
+      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+      let slime = new Slime({context: context});
+      assert.equal(slime.context.arc.calls.length, 0);
+      slime.drawPlayer1Eye();
+      assert.equal(slime.context.arc.calls.length, 1);
+      assert.equal(slime.context.arc.calls[0][0], 318);
+      assert.equal(slime.context.arc.calls[0][1], 546);
+      assert.equal(slime.context.arc.calls[0][2], 10);
+      assert.equal(slime.context.arc.calls[0][3], Math.PI * 2);
+      assert.equal(slime.context.arc.calls[0][4], false);
+    });
+    it('should drawPlayer2eye', function(){
+      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+      let slime = new Slime({context: context});
+      assert.equal(slime.context.arc.calls.length, 0);
+      slime.drawPlayer2Eye();
+      assert.equal(slime.context.arc.calls.length, 1);
+      assert.equal(slime.context.arc.calls[0][0], 232);
+      assert.equal(slime.context.arc.calls[0][1], 546);
+      assert.equal(slime.context.arc.calls[0][2], 10);
+      assert.equal(slime.context.arc.calls[0][3], Math.PI * 2);
+      assert.equal(slime.context.arc.calls[0][4], false);
+    });
+    it('should drawPlayer1Pupil', function(){
+      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+      let slime = new Slime({context: context});
+      let ball = new Ball();
+      slime.ball = ball;
+      assert.equal(slime.context.arc.calls.length, 0);
+      slime.drawPlayer1Pupil();
+      assert.equal(slime.context.arc.calls.length, 1);
+      assert.equal(slime.context.arc.calls[0][0], 317.2916666666667);
+      assert.equal(slime.context.arc.calls[0][1], 544.7857142857143);
+      assert.equal(slime.context.arc.calls[0][2], 4);
+      assert.equal(slime.context.arc.calls[0][3], Math.PI * 2);
+      assert.equal(slime.context.arc.calls[0][4], false);
     });
   });
 });
