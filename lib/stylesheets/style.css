@@ -4,5 +4,6 @@ canvas {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    background-color: pink;
+    background: url("http://i.imgur.com/gDJx6ws.jpg") no-repeat;
+    background-position: center;
 }
