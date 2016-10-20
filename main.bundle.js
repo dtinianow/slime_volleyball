@@ -566,7 +566,7 @@
 	Menu.prototype.render = function () {
 	  this.context.textAlign = "center";
 	  this.context.font = "90px Verdana";
-	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 150);
+	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 120);
 	  this.displayOptions();
 	};
 
@@ -590,9 +590,10 @@
 	};
 
 	Menu.prototype.player1Instructions = function () {
-	  this.context.textAlign = "left";
+	  this.context.textAlign = "center";
 	  this.context.font = "40px Verdana";
-	  this.context.fillText("Player 1", this.canvas.width - 900, 260);
+	  this.context.fillText("Player 1 / Single Player", this.canvas.width - 800, 260);
+	  this.context.textAlign = "left";
 	  this.context.font = "30px Verdana";
 	  this.context.fillText("a: move left", this.canvas.width - 900, 340);
 	  this.context.fillText("d: move right", this.canvas.width - 900, 390);
@@ -600,9 +601,10 @@
 	};
 
 	Menu.prototype.player2Instructions = function () {
-	  this.context.textAlign = "left";
+	  this.context.textAlign = "center";
 	  this.context.font = "40px Verdana";
-	  this.context.fillText("Player 2", this.canvas.width - 500, 260);
+	  this.context.fillText("Player 2", this.canvas.width - 350, 260);
+	  this.context.textAlign = "left";
 	  this.context.font = "30px Verdana";
 	  this.context.fillText("left arrow key: move left", this.canvas.width - 500, 340);
 	  this.context.fillText("right arrow key: move right", this.canvas.width - 500, 390);
@@ -788,11 +790,15 @@
 	      this.ifFinishJump(value, jump);
 	      this.ifJumping(value, jump);
 	    }
-	    if (this.x < this.canvas.width / 2 + this.radius) {
-	      this.x = this.canvas.width / 2 + this.radius;
-	    } else if (this.x + this.radius > this.canvas.width) {
-	      this.x = this.canvas.width - this.radius;
-	    }
+	    this.moveAI();
+	  }
+	};
+
+	Slime.prototype.moveAI = function () {
+	  if (this.x < this.canvas.width / 2 + this.radius) {
+	    this.x = this.canvas.width / 2 + this.radius;
+	  } else if (this.x + this.radius > this.canvas.width) {
+	    this.x = this.canvas.width - this.radius;
 	  }
 	};
 
