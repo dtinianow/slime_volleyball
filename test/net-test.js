@@ -27,7 +27,7 @@ describe('Net', function() {
     })
     it('should have a default color', function() {
       let net = new Net;
-      assert.equal(net.color, 'black');
+      assert.equal(net.color, '#33334d');
     })
     it('should have a default context', function() {
       let context = 'context';
