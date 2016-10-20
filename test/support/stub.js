@@ -10,7 +10,7 @@ function stub() {
         if(callback){
           ret = callback.apply(this, args);
         }
-        if(returnValue) return returnValue;
+        if(returnValue) { return returnValue; }
         return ret;
       };
       this[name].calls = [];

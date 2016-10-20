@@ -1680,7 +1680,6 @@
 	      assert.equal(slime.x, 265);
 	    });
 	    it('should not move without a keystroke', function () {
-	      let keysDown = {};
 	      let slime = new Slime();
 	      assert.equal(slime.x, 275);
 	      slime.updatePosition(37, 39);
@@ -10040,7 +10039,9 @@
 	        if (callback) {
 	          ret = callback.apply(this, args);
 	        }
-	        if (returnValue) return returnValue;
+	        if (returnValue) {
+	          return returnValue;
+	        }
 	        return ret;
 	      };
 	      this[name].calls = [];
@@ -10108,6 +10109,67 @@
 	      assert.equal(ball.context.arc.calls[0][3], Math.PI * 2);
 	      assert.equal(ball.context.arc.calls[0][4], false);
 	    });
+	    it('it moves on screen', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      assert.equal(ball.y, 300);
+	      ball.movement();
+	      assert.equal(ball.y, 305.8);
+	      assert.equal(ball.x, 275);
+	    });
+	    it('it sets speed', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      assert.equal(ball.y_speed, 5);
+	      ball.difficulty = "insane";
+	      ball.setSpeed("insane");
+	      assert.equal(ball.y_speed, 25);
+	      ball.difficulty = "normal";
+	      ball.setSpeed("normal");
+	      assert.equal(ball.y_speed, 5);
+	    });
+	    it('it resets after point', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      ball.y = 400;
+	      ball.x_speed = 19;
+	      ball.resetAfterPoint("normal");
+	      assert.equal(ball.y_speed, 5);
+	      assert.equal(ball.y, 300);
+	      assert.equal(ball.x_speed, 0);
+	    });
+	    it("it knows it's touching the ceiling", function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      ball.y = -100;
+	      assert.notStrictEqual(ball.isTouchingCeiling, true);
+	    });
+	    it("it knows it's touching the net", function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      ball.y = 800;
+	      ball.x = 550;
+	      assert.notStrictEqual(ball.isTouchingNet, true);
+	    });
+	    it("it knows it's touching the ground", function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      ball.y = 800;
+	      assert.notStrictEqual(ball.isTouchingNet, true);
+	    });
+	    it("it knows it's touching the wall", function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      ball.x = 1100;
+	      assert.notStrictEqual(ball.isTouchingNet, true);
+	    });
+	    it("it knows it's touching slime", function () {
+	      let context = stub().of('beginPath').of('arc').of('fill');
+	      let ball = new Ball({ context: context });
+	      ball.x = 225;
+	      ball.y = 800;
+	      assert.notStrictEqual(ball.isTouchingNet, true);
+	    });
 	  });
 	});
 
@@ -10117,24 +10179,15 @@
 
 	const chai = __webpack_require__(23);
 	const assert = chai.assert;
-	const Ball = __webpack_require__(3);
 	const stub = __webpack_require__(63);
 	const Slime = __webpack_require__(7);
-	const Net = __webpack_require__(2);
 	const Player = __webpack_require__(6);
 	const Scoreboard = __webpack_require__(4);
-	const Menu = __webpack_require__(5);
 	const Game = __webpack_require__(1);
 
 	describe('Game', function () {
 	  context('With default attributes', function () {
 	    it('should be instantiated', function () {
-	      let slime = new Slime();
-	      let ball = new Ball();
-	      let net = new Net();
-	      let scoreboard = new Scoreboard();
-	      let context = stub();
-	      let menu = new Menu();
 	      let game = new Game();
 	      assert.equal(game.showGameOverMenu, false);
 	      assert.equal(game.showMainMenu, true);
@@ -10144,12 +10197,6 @@
 	  });
 	  context('With default functions', function () {
 	    it('should be instantiated', function () {
-	      let slime = new Slime();
-	      let ball = new Ball();
-	      let net = new Net();
-	      let scoreboard = new Scoreboard();
-	      let context = stub();
-	      let menu = new Menu();
 	      let game = new Game();
 	      assert.isFunction(game.renderGame);
 	      assert.isFunction(game.saveScore);
@@ -10178,6 +10225,42 @@
 	      assert.isFunction(game.insaneBorderCollision);
 	      assert.isFunction(game.insaneNetCollision);
 	    });
+	    it("it knows it's game point in insane mode", function () {
+	      let scoreboard = new Scoreboard();
+	      let context = stub();
+	      let canvas = stub();
+	      let keysDown = {};
+	      let game = new Game();
+	      let player1Attributes = { context: context, canvas: canvas, keysDown: keysDown, ball: this.ball, player: "player 1" };
+	      let player1KeyCodes = { moveLeft: 65, moveRight: 68, jump: 87 };
+	      let player1 = new Player(player1Attributes, player1KeyCodes);
+	      let slime = new Slime(player1Attributes);
+	      player1.slime = slime;
+	      scoreboard.player1Score = 6;
+	      game.difficulty = "insane";
+	      this.showGameOverMenu = false;
+	      assert.equal(player1.slime.radius, 80);
+	      game.insanePlayer1GamePoint();
+	      assert.notStrictEqual(player1.slime.radius, 20);
+	    });
+	    it("it knows it's game point in insane mode for player 2", function () {
+	      let scoreboard = new Scoreboard();
+	      let context = stub();
+	      let canvas = stub();
+	      let keysDown = {};
+	      let game = new Game();
+	      let player2Attributes = { context: context, canvas: canvas, keysDown: keysDown, ball: this.ball, player: "player 1" };
+	      let player2KeyCodes = { moveLeft: 65, moveRight: 68, jump: 87 };
+	      let player2 = new Player(player2Attributes, player2KeyCodes);
+	      let slime = new Slime(player2Attributes);
+	      player2.slime = slime;
+	      scoreboard.player1Score = 6;
+	      game.difficulty = "insane";
+	      this.showGameOverMenu = false;
+	      assert.equal(player2.slime.radius, 80);
+	      game.insanePlayer2GamePoint();
+	      assert.notStrictEqual(player2.slime.radius, 20);
+	    });
 	  });
 	});
 
@@ -10203,6 +10286,52 @@
 	    it('should have default functions', function () {
 	      let menu = new Menu();
 	      assert.isFunction(menu.render);
+	      assert.isFunction(menu.displayOptions);
+	      assert.isFunction(menu.getInstructions);
+	      assert.isFunction(menu.player1Instructions);
+	      assert.isFunction(menu.player2Instructions);
+	      assert.isFunction(menu.changeBackgroundInstructions);
+	      assert.isFunction(menu.returnToMainMenuInstructions);
+	    });
+	    it('should render player 1 instructions', function () {
+	      var context = stub().of('fillText').of('fill');
+	      var canvas = stub();
+	      let menu = new Menu({ context: context, canvas: canvas });
+	      assert.equal(menu.context.fillText.calls.length, 0);
+	      menu.player1Instructions();
+	      assert.equal(menu.context.fillText.calls.length, 4);
+	    });
+	    it('should render player 2 instructions', function () {
+	      var context = stub().of('fillText').of('fill');
+	      var canvas = stub();
+	      let menu = new Menu({ context: context, canvas: canvas });
+	      assert.equal(menu.context.fillText.calls.length, 0);
+	      menu.player2Instructions();
+	      assert.equal(menu.context.fillText.calls.length, 4);
+	    });
+	    it('should render menu instructions', function () {
+	      var context = stub().of('fillText').of('fill');
+	      var canvas = stub();
+	      let menu = new Menu({ context: context, canvas: canvas });
+	      assert.equal(menu.context.fillText.calls.length, 0);
+	      menu.render();
+	      assert.equal(menu.context.fillText.calls.length, 4);
+	    });
+	    it('should render change background instructions', function () {
+	      var context = stub().of('fillText').of('fill');
+	      var canvas = stub();
+	      let menu = new Menu({ context: context, canvas: canvas });
+	      assert.equal(menu.context.fillText.calls.length, 0);
+	      menu.changeBackgroundInstructions();
+	      assert.equal(menu.context.fillText.calls.length, 1);
+	    });
+	    it('should render return to menu instructions', function () {
+	      var context = stub().of('fillText').of('fill');
+	      var canvas = stub();
+	      let menu = new Menu({ context: context, canvas: canvas });
+	      assert.equal(menu.context.fillText.calls.length, 0);
+	      menu.returnToMainMenuInstructions();
+	      assert.equal(menu.context.fillText.calls.length, 1);
 	    });
 	  });
 	});
@@ -10275,7 +10404,6 @@
 	const assert = chai.assert;
 	const Player = __webpack_require__(6);
 	const stub = __webpack_require__(63);
-	const Slime = __webpack_require__(7);
 	const Ball = __webpack_require__(3);
 
 	describe('Player', function () {
@@ -10286,9 +10414,6 @@
 	      let keysDown = stub();
 	      let attributes = { context: context, canvas: canvas, keysDown: keysDown, ball: ball, player: "player 1" };
 	      let keyCodes = { moveLeft: 65, moveRight: 68, jump: 87 };
-	      let moveLeft = stub();
-	      let moveRight = stub();
-	      let jump = stub();
 	      let player = new Player(attributes, keyCodes);
 	      assert.equal(player.moveLeft, keyCodes.moveLeft);
 	      assert.equal(player.moveRight, keyCodes.moveRight);
@@ -10302,9 +10427,6 @@
 	      let keysDown = stub();
 	      let attributes = { context: context, canvas: canvas, keysDown: keysDown, ball: ball, player: "player 1" };
 	      let keyCodes = { moveLeft: 65, moveRight: 68, jump: 87 };
-	      let moveLeft = stub();
-	      let moveRight = stub();
-	      let jump = stub();
 	      let player = new Player(attributes, keyCodes);
 	      assert.isFunction(player.render);
 	    });
@@ -10323,7 +10445,6 @@
 	describe('Scoreboard', function () {
 	  context('with default attributes', function () {
 	    it('should be instantiated', function () {
-	      let localStorage = 0;
 	      let context = stub();
 	      let canvas = stub();
 	      let scoreboard = new Scoreboard({ context: context, canvas: canvas, player1GamesWon: 0, player2GamesWon: 0 });
@@ -10338,7 +10459,6 @@
 	  });
 	  context('with default functions', function () {
 	    it('should be instantiated', function () {
-	      let localStorage = 0;
 	      let context = stub();
 	      let canvas = stub();
 	      let scoreboard = new Scoreboard({ context: context, canvas: canvas, player1GamesWon: 0, player2GamesWon: 0 });
@@ -10352,7 +10472,6 @@
 	      assert.isFunction(scoreboard.doesPlayer2Win);
 	    });
 	    it('should be reset score', function () {
-	      let localStorage = 0;
 	      let context = stub();
 	      let canvas = stub();
 	      let scoreboard = new Scoreboard({ context: context, canvas: canvas });
@@ -10365,7 +10484,6 @@
 	      assert.equal(scoreboard.player2Score, 0);
 	    });
 	    it('should count match score', function () {
-	      let localStorage = 0;
 	      let context = stub();
 	      let canvas = stub();
 	      let scoreboard = new Scoreboard({ context: context, canvas: canvas });
@@ -10380,7 +10498,6 @@
 	      assert.equal(scoreboard.player2GamesWon, 0);
 	    });
 	    it('should add match wins when score reaches 7', function () {
-	      let localStorage = 0;
 	      let context = stub();
 	      let canvas = stub();
 	      let scoreboard = new Scoreboard({ context: context, canvas: canvas });
