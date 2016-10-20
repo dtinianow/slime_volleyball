@@ -99,13 +99,16 @@ describe('Game', function() {
       let slime = new Slime(player2Attributes);
       player2.slime = slime;
       scoreboard.player1Score = 5;
+      scoreboard.player2Score = 5;
       game.difficulty = "insane";
       this.showGameOverMenu = false;
       ball.x = 800;
       ball.y = 600;
       assert.equal(scoreboard.player1Score, 5);
+      assert.equal(scoreboard.player2Score, 5);
       game.checkIfPointScored(canvas);
       assert.notStrictEqual(scoreboard.player1Score, 6);
+      assert.equal(scoreboard.player2Score, 5);
     });
   });
 });

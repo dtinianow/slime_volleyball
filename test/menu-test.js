@@ -45,7 +45,7 @@ describe('Menu', function() {
       let menu = new Menu({context: context, canvas: canvas});
       assert.equal(menu.context.fillText.calls.length, 0);
       menu.render();
-      assert.equal(menu.context.fillText.calls.length, 4);
+      assert.equal(menu.context.fillText.calls.length, 6);
     });
     it('should render change background instructions', function() {
       var context = stub().of('fillText').of('fill');
