@@ -566,7 +566,7 @@
 	Menu.prototype.render = function () {
 	  this.context.textAlign = "center";
 	  this.context.font = "90px Verdana";
-	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 150);
+	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 120);
 	  this.displayOptions();
 	};
 

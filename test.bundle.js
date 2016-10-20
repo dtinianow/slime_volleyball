@@ -575,7 +575,7 @@
 	Menu.prototype.render = function () {
 	  this.context.textAlign = "center";
 	  this.context.font = "90px Verdana";
-	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 150);
+	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 120);
 	  this.displayOptions();
 	};
 
@@ -10380,13 +10380,16 @@
 	      let slime = new Slime(player2Attributes);
 	      player2.slime = slime;
 	      scoreboard.player1Score = 5;
+	      scoreboard.player2Score = 5;
 	      game.difficulty = "insane";
 	      this.showGameOverMenu = false;
 	      ball.x = 800;
 	      ball.y = 600;
 	      assert.equal(scoreboard.player1Score, 5);
+	      assert.equal(scoreboard.player2Score, 5);
 	      game.checkIfPointScored(canvas);
 	      assert.notStrictEqual(scoreboard.player1Score, 6);
+	      assert.equal(scoreboard.player2Score, 5);
 	    });
 	  });
 	});
@@ -10442,7 +10445,7 @@
 	      let menu = new Menu({ context: context, canvas: canvas });
 	      assert.equal(menu.context.fillText.calls.length, 0);
 	      menu.render();
-	      assert.equal(menu.context.fillText.calls.length, 4);
+	      assert.equal(menu.context.fillText.calls.length, 6);
 	    });
 	    it('should render change background instructions', function () {
 	      var context = stub().of('fillText').of('fill');
