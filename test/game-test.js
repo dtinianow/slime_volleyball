@@ -5,6 +5,7 @@ const Slime = require('../lib/scripts/slime');
 const Player = require('../lib/scripts/player');
 const Scoreboard = require('../lib/scripts/scoreboard');
 const Game = require('../lib/scripts/game');
+require('../lib/scripts/game-commands');
 
 describe('Game', function() {
   context('With default attributes', function () {
@@ -23,6 +24,7 @@ describe('Game', function() {
       assert.isFunction(game.saveScore);
       assert.isFunction(game.gameOverMenu);
       assert.isFunction(game.renderBackground);
+      assert.isFunction(game.displayInstructions);
       assert.isFunction(game.changeBackgroundImage);
       assert.isFunction(game.mainMenu);
       assert.isFunction(game.scoreGame);
