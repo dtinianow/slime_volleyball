@@ -1,22 +1,18 @@
-# Game Time - Tag Pro
-
-## Objective
-
-The objective of the Game Time project was to develop a game using only front-end javascript (no Rails!). To complete the project, game should:
-* Indicate when the game is over and won or lost
-* Allow the user to start a new game
-* Include a clean UI surrounding the actual game interface itself
-* Score Tracking: How this works will vary by game, but at the end of the game, generate a score for the winning player
-* Scoreboard -- track scores across multiple game sessions. Since we aren't incorporating a server for our games, client-side storage like a cookie or LocalStorage will suffice.
-* Create multiple rounds of difficulty. (consider increasing factors such as game speed, randomness of starting setup, etc)
+# Slime Volleyball
 
 ## Game Play
 
-We chose to replicate an existing game called [Slime Volleyball](https://clay.io/game/slime). It is essentially a 1 v 1 2D volleyball game.
+We built a modern version of the classic 2D game, Slime Volleyball.  It is a single page, client-side web application built in JavaScript and utilizing [Webpack] (https://github.com/webpack/webpack).
 
-Our game is limited to two players. The Green Slime uses the arrow keys to move, and the Red Slime uses WASD keys to move. There is no time limit for game play. The first team to score 7 points wins.
+Slime Volleyball is a two player game. The slime on the right of the screen is controlled using the arrow keys, and the slime on the left of the screen is controlled using the WASD keys. There is no time limit for game play. The first slime to score 7 points wins!
 
-[Link to Production Application]()
+The game features two modes of play: normal mode and insane mode.  Press `n` from the main menu to activate normal mode and `i` to activate insane mode.  During normal mode, the user can change the background of the slime arena by typing any key from `1-9`.
+
+At the end of each match, a player sees a Game Over screen where the score of all matches is displayed.  The players then have the option to either play again, clear the match score, or return to the main menu.  Match scores are retained using `localStorage`, and can be reset on the Game Over screen by typing `m`.  Refreshing the game on your machine will not reset your match score.
+
+Have fun!
+
+
 
 ## Repo Setup
 
@@ -37,14 +33,6 @@ Once the server is running, you can visit:
 * `http://localhost:8080/webpack-dev-server/` to run your application.
 * `http://localhost:8080/webpack-dev-server/test.html` to run your test suite in the browser.
 
-To build the static files:
-
-```js
-npm run build
-```
-
-To run tests in Node:
-
-```js
-npm test
-```
+## Collaborators
+[David Tinianow] (https://www.github.com/dtinianow)
+[Matt Campbell] (https://www.github.com/matthewecampbell)
