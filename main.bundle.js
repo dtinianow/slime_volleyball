@@ -46,7 +46,7 @@
 
 	var Game = __webpack_require__(1);
 
-	__webpack_require__(9);
+	__webpack_require__(10);
 
 	new Game();
 
@@ -54,12 +54,101 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Net = __webpack_require__(2);
-	var Ball = __webpack_require__(3);
-	var Scoreboard = __webpack_require__(4);
-	var Menu = __webpack_require__(5);
-	var Player = __webpack_require__(6);
-	var randomColor = __webpack_require__(8);
+	var Game = __webpack_require__(2);
+
+	Game.prototype.gameOverMenu = function (keysDown) {
+	  for (var key in keysDown) {
+	    var value = Number(key);
+	    if (value === 13) {
+	      this.startNewMatch();
+	    }
+	    if (value === 77) {
+	      this.scoreboard.resetMatchScore();
+	    }
+	    if (value === 27) {
+	      this.returnToMainMenu();
+	    }
+	  }
+	};
+
+	Game.prototype.renderBackground = function (keysDown) {
+	  if (this.difficulty === "normal") {
+	    var background = { beach: "http://i.imgur.com/gDJx6ws.jpg", mars: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg/1280px-PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg", underWater: "http://www.publicdomainpictures.net/pictures/140000/velka/seabed-underwater-1443611137nes.jpg", minions: "https://s-media-cache-ak0.pinimg.com/originals/59/45/06/594506d41c836f70139b90a0f67e1563.gif", lotr: "https://media.giphy.com/media/c5iRPkrIqDHQk/giphy.gif", unicorn: "http://f.owledge.de/mlp/PFUDOR_dancing_fullres.gif", mountains: "https://lonelyplanetimages.imgix.net/a/g/hi/t/12dec8938220093eb7f1fdb8a9ce40b8-the-rocky-mountains.jpg?sharp=10&vib=20&w=1200", technicolor: "http://i.imgur.com/CcKD4Jd.gif", matrix: "https://reneweddesign.files.wordpress.com/2015/07/matrix-2.gif?w=1280&h=1024&crop=1" };
+	    for (var key in keysDown) {
+	      var value = Number(key);
+	      if (value === 49) {
+	        this.changeBackgroundImage(background.beach);
+	      }
+	      if (value === 50) {
+	        this.changeBackgroundImage(background.mars);
+	      }
+	      if (value === 51) {
+	        this.changeBackgroundImage(background.underWater);
+	      }
+	      if (value === 52) {
+	        this.changeBackgroundImage(background.minions);
+	      }
+	      if (value === 53) {
+	        this.changeBackgroundImage(background.lotr);
+	      }
+	      if (value === 54) {
+	        this.changeBackgroundImage(background.unicorn);
+	      }
+	      if (value === 55) {
+	        this.changeBackgroundImage(background.mountains);
+	      }
+	      if (value === 56) {
+	        this.changeBackgroundImage(background.technicolor);
+	      }
+	      if (value === 57) {
+	        this.changeBackgroundImage(background.matrix);
+	      }
+	    }
+	  }
+	};
+
+	Game.prototype.mainMenu = function (keysDown) {
+	  for (var key in keysDown) {
+	    var value = Number(key);
+	    if (value === 78) {
+	      this.startNormalMode();this.player2.slime.ai = false;
+	    }
+	    if (value === 90) {
+	      this.startNormalMode();this.player2.slime.ai = true;
+	    }
+	    if (value === 88) {
+	      this.startInsaneMode();this.player2.slime.ai = true;
+	    }
+	    if (value === 73) {
+	      this.startInsaneMode();this.player2.slime.ai = false;
+	    }
+	    if (value === 81) {
+	      this.showInstructions = true;
+	    }
+	  }
+	};
+
+	Game.prototype.displayInstructions = function (keysDown) {
+	  for (var key in keysDown) {
+	    var value = Number(key);
+	    if (value === 13) {
+	      this.showInstructions = false;
+	    }
+	  }
+	};
+
+	module.exports = Game;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Net = __webpack_require__(3);
+	var Ball = __webpack_require__(4);
+	var Scoreboard = __webpack_require__(5);
+	var Menu = __webpack_require__(6);
+	var Player = __webpack_require__(7);
+	var randomColor = __webpack_require__(9);
 
 	function Game() {
 	  var canvas = document.createElement('canvas');
@@ -130,83 +219,8 @@
 	  localStorage.setItem('player2Score', this.scoreboard.player2GamesWon);
 	};
 
-	Game.prototype.gameOverMenu = function (keysDown) {
-	  for (var key in keysDown) {
-	    var value = Number(key);
-	    if (value === 13) {
-	      this.startNewMatch();
-	    }
-	    if (value === 77) {
-	      this.scoreboard.resetMatchScore();
-	    }
-	    if (value === 27) {
-	      this.returnToMainMenu();
-	    }
-	  }
-	};
-
-	Game.prototype.renderBackground = function (keysDown) {
-	  if (this.difficulty === "normal") {
-	    var background = { beach: "http://i.imgur.com/gDJx6ws.jpg", mars: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg/1280px-PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg", underWater: "http://www.publicdomainpictures.net/pictures/140000/velka/seabed-underwater-1443611137nes.jpg", minions: "https://s-media-cache-ak0.pinimg.com/originals/59/45/06/594506d41c836f70139b90a0f67e1563.gif", lotr: "https://media.giphy.com/media/c5iRPkrIqDHQk/giphy.gif", unicorn: "http://f.owledge.de/mlp/PFUDOR_dancing_fullres.gif", mountains: "https://lonelyplanetimages.imgix.net/a/g/hi/t/12dec8938220093eb7f1fdb8a9ce40b8-the-rocky-mountains.jpg?sharp=10&vib=20&w=1200", technicolor: "http://i.imgur.com/CcKD4Jd.gif", matrix: "https://reneweddesign.files.wordpress.com/2015/07/matrix-2.gif?w=1280&h=1024&crop=1" };
-	    for (var key in keysDown) {
-	      var value = Number(key);
-	      if (value === 49) {
-	        this.changeBackgroundImage(background.beach);
-	      }
-	      if (value === 50) {
-	        this.changeBackgroundImage(background.mars);
-	      }
-	      if (value === 51) {
-	        this.changeBackgroundImage(background.underWater);
-	      }
-	      if (value === 52) {
-	        this.changeBackgroundImage(background.minions);
-	      }
-	      if (value === 53) {
-	        this.changeBackgroundImage(background.lotr);
-	      }
-	      if (value === 54) {
-	        this.changeBackgroundImage(background.unicorn);
-	      }
-	      if (value === 55) {
-	        this.changeBackgroundImage(background.mountains);
-	      }
-	      if (value === 56) {
-	        this.changeBackgroundImage(background.technicolor);
-	      }
-	      if (value === 57) {
-	        this.changeBackgroundImage(background.matrix);
-	      }
-	    }
-	  }
-	};
-
 	Game.prototype.changeBackgroundImage = function (background) {
 	  document.getElementById('canvasID').style.background = 'url(' + background + ')';
-	};
-
-	Game.prototype.mainMenu = function (keysDown) {
-	  for (var key in keysDown) {
-	    var value = Number(key);
-	    if (value === 78) {
-	      this.startNormalMode();
-	    }
-	    if (value === 73) {
-	      this.startInsaneMode();
-	    }
-	    if (value === 81) {
-	      this.showInstructions = true;
-	    }
-	  }
-	};
-
-	Game.prototype.displayInstructions = function (keysDown) {
-	  for (var key in keysDown) {
-	    var value = Number(key);
-	    if (value === 13) {
-	      this.showInstructions = false;
-	    }
-	  }
 	};
 
 	Game.prototype.scoreGame = function (canvas) {
@@ -236,7 +250,6 @@
 	    this.collideWithPlayer(player);
 	    player.slime.gravity();
 	  }.bind(this));
-
 	  this.delayServe();
 	  this.ballCollisions(canvas);
 	  this.ball.movement();
@@ -346,7 +359,6 @@
 	};
 
 	Game.prototype.startInsaneMode = function () {
-	  this.showMainMenu = false;
 	  this.ball.speed = 36;
 	  this.difficulty = "insane";
 	  this.ball.radius = 20;
@@ -355,8 +367,9 @@
 	  this.player2.slime.color = "green";
 	  this.player2.slime.radius = 80;
 	  this.scoreboard.resetScore();
-	  this.showGameOverMenu = false;
 	  document.getElementById('canvasID').style.background = randomColor();
+	  this.showGameOverMenu = false;
+	  this.showMainMenu = false;
 	};
 
 	Game.prototype.insaneSlimeCollision = function (player) {
@@ -380,7 +393,7 @@
 	module.exports = Game;
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	function Net(context) {
@@ -400,7 +413,7 @@
 	module.exports = Net;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	function Ball(attributes = {}) {
@@ -470,7 +483,7 @@
 	module.exports = Ball;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	function Scoreboard(attributes = {}) {
@@ -542,7 +555,7 @@
 	module.exports = Scoreboard;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	function Menu(attributes = {}) {
@@ -558,10 +571,12 @@
 	};
 
 	Menu.prototype.displayOptions = function () {
-	  this.context.font = "60px Verdana";
-	  this.context.fillText("Press `n` for normal mode", this.canvas.width / 2, 280);
-	  this.context.fillText("Press `i` for insane mode", this.canvas.width / 2, 380);
-	  this.context.fillText("Press `q` for instructions", this.canvas.width / 2, 480);
+	  this.context.font = "40px Verdana";
+	  this.context.fillText("Press `n` for normal mode", this.canvas.width / 2, 200);
+	  this.context.fillText("Press `i` for insane mode", this.canvas.width / 2, 280);
+	  this.context.fillText("Press `z` to play against AI", this.canvas.width / 2, 360);
+	  this.context.fillText("Press `x` to play insane AI", this.canvas.width / 2, 440);
+	  this.context.fillText("Press `q` for instructions", this.canvas.width / 2, 520);
 	};
 
 	Menu.prototype.getInstructions = function () {
@@ -608,10 +623,10 @@
 	module.exports = Menu;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Slime = __webpack_require__(7);
+	var Slime = __webpack_require__(8);
 
 	function Player(attributes, keyCodes) {
 	  this.moveLeft = keyCodes.moveLeft;
@@ -628,7 +643,7 @@
 	module.exports = Player;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	function Slime(attributes = {}) {
@@ -643,6 +658,7 @@
 	  this.ball = attributes.ball;
 	  this.player = attributes.player;
 	  this.jumping = false;
+	  this.ai = false;
 	}
 
 	Slime.prototype.render = function () {
@@ -749,7 +765,35 @@
 	    this.ifJumping(value, jump);
 	    this.ifStayingStill();
 	  }
+	  this.ifAI(jump);
 	  return this;
+	};
+
+	Slime.prototype.ifAI = function (jump) {
+	  if (this.ai === true && this.ball.x > this.canvas.width / 2) {
+	    var x_difference = this.x - this.ball.x;
+	    if (this.ball.x === 775) {
+	      x_difference = 0.5;
+	    } else if (x_difference === 0) {
+	      x_difference = 5;
+	    } else if (-80 > x_difference > 0.1) {
+	      x_difference = 15;
+	    } else if (0.1 < x_difference < 80) {
+	      x_difference = -15;
+	    }
+	    this.move(x_difference, 0);
+	    var y_difference = this.y - this.radius - 60 < this.ball.y && x_difference < 80;
+	    if (y_difference === true) {
+	      var value = jump;
+	      this.ifFinishJump(value, jump);
+	      this.ifJumping(value, jump);
+	    }
+	    if (this.x < this.canvas.width / 2 + this.radius) {
+	      this.x = this.canvas.width / 2 + this.radius;
+	    } else if (this.x + this.radius > this.canvas.width) {
+	      this.x = this.canvas.width - this.radius;
+	    }
+	  }
 	};
 
 	Slime.prototype.ifMoveRight = function (value, moveRight) {
@@ -835,7 +879,7 @@
 	module.exports = Slime;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// randomColor by David Merfield under the CC0 license
@@ -1270,16 +1314,16 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(10);
+	var content = __webpack_require__(11);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(12)(content, {});
+	var update = __webpack_require__(13)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -1296,10 +1340,10 @@
 	}
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(11)();
+	exports = module.exports = __webpack_require__(12)();
 	// imports
 
 
@@ -1310,7 +1354,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/*
@@ -1366,7 +1410,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
