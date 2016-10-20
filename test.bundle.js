@@ -575,7 +575,7 @@
 	Menu.prototype.render = function () {
 	  this.context.textAlign = "center";
 	  this.context.font = "90px Verdana";
-	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 150);
+	  this.context.fillText("Slime Volleyball", this.canvas.width / 2, 120);
 	  this.displayOptions();
 	};
 
@@ -599,9 +599,10 @@
 	};
 
 	Menu.prototype.player1Instructions = function () {
-	  this.context.textAlign = "left";
+	  this.context.textAlign = "center";
 	  this.context.font = "40px Verdana";
-	  this.context.fillText("Player 1", this.canvas.width - 900, 260);
+	  this.context.fillText("Player 1 / Single Player", this.canvas.width - 800, 260);
+	  this.context.textAlign = "left";
 	  this.context.font = "30px Verdana";
 	  this.context.fillText("a: move left", this.canvas.width - 900, 340);
 	  this.context.fillText("d: move right", this.canvas.width - 900, 390);
@@ -609,9 +610,10 @@
 	};
 
 	Menu.prototype.player2Instructions = function () {
-	  this.context.textAlign = "left";
+	  this.context.textAlign = "center";
 	  this.context.font = "40px Verdana";
-	  this.context.fillText("Player 2", this.canvas.width - 500, 260);
+	  this.context.fillText("Player 2", this.canvas.width - 350, 260);
+	  this.context.textAlign = "left";
 	  this.context.font = "30px Verdana";
 	  this.context.fillText("left arrow key: move left", this.canvas.width - 500, 340);
 	  this.context.fillText("right arrow key: move right", this.canvas.width - 500, 390);
@@ -797,11 +799,15 @@
 	      this.ifFinishJump(value, jump);
 	      this.ifJumping(value, jump);
 	    }
-	    if (this.x < this.canvas.width / 2 + this.radius) {
-	      this.x = this.canvas.width / 2 + this.radius;
-	    } else if (this.x + this.radius > this.canvas.width) {
-	      this.x = this.canvas.width - this.radius;
-	    }
+	    this.moveAI();
+	  }
+	};
+
+	Slime.prototype.moveAI = function () {
+	  if (this.x < this.canvas.width / 2 + this.radius) {
+	    this.x = this.canvas.width / 2 + this.radius;
+	  } else if (this.x + this.radius > this.canvas.width) {
+	    this.x = this.canvas.width - this.radius;
 	  }
 	};
 
@@ -1350,8 +1356,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -10442,7 +10448,7 @@
 	      let menu = new Menu({ context: context, canvas: canvas });
 	      assert.equal(menu.context.fillText.calls.length, 0);
 	      menu.render();
-	      assert.equal(menu.context.fillText.calls.length, 4);
+	      assert.equal(menu.context.fillText.calls.length, 6);
 	    });
 	    it('should render change background instructions', function () {
 	      var context = stub().of('fillText').of('fill');
