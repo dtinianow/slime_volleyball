@@ -61,5 +61,47 @@ describe('Game', function() {
       assert.isFunction(game.insaneBorderCollision)
       assert.isFunction(game.insaneNetCollision)
     });
+    it("it knows it's game point in insane mode", function() {
+      let ball = new Ball;
+      let net = new Net;
+      let scoreboard = new Scoreboard;
+      let context = stub();
+      let canvas = stub();
+      let keysDown = {};
+      let menu = new Menu;
+      let game = new Game;
+      let player1Attributes = {context: context, canvas: canvas, keysDown: keysDown, ball: this.ball, player: "player 1"};
+      let player1KeyCodes = {moveLeft: 65, moveRight: 68, jump: 87};
+      let player1 = new Player(player1Attributes, player1KeyCodes);
+      let slime = new Slime(player1Attributes);
+      player1.slime = slime;
+      scoreboard.player1Score = 6
+      game.difficulty = "insane"
+      this.showGameOverMenu = false
+      assert.equal(player1.slime.radius, 80);
+      game.insanePlayer1GamePoint();
+      assert.notStrictEqual(player1.slime.radius, 20);
+    })
+    it("it knows it's game point in insane mode for player 2", function() {
+      let ball = new Ball;
+      let net = new Net;
+      let scoreboard = new Scoreboard;
+      let context = stub();
+      let canvas = stub();
+      let keysDown = {};
+      let menu = new Menu;
+      let game = new Game;
+      let player2Attributes = {context: context, canvas: canvas, keysDown: keysDown, ball: this.ball, player: "player 1"};
+      let player2KeyCodes = {moveLeft: 65, moveRight: 68, jump: 87};
+      let player2 = new Player(player2Attributes, player2KeyCodes);
+      let slime = new Slime(player2Attributes);
+      player2.slime = slime;
+      scoreboard.player1Score = 6
+      game.difficulty = "insane"
+      this.showGameOverMenu = false
+      assert.equal(player2.slime.radius, 80);
+      game.insanePlayer2GamePoint();
+      assert.notStrictEqual(player2.slime.radius, 20);
+    })
   })
 })
