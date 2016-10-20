@@ -1306,8 +1306,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/David/turing/4module/projects/slime_volleyball/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/matthewcampbell/Desktop/turing/module_4/slime_volleyball/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1586,6 +1586,7 @@
 	const assert = chai.assert;
 	const Slime = __webpack_require__(7);
 	const stub = __webpack_require__(63);
+	const Ball = __webpack_require__(3);
 
 	describe('Slime', function () {
 	  context('with default attributes', function () {
@@ -1713,6 +1714,63 @@
 	      let slime = new Slime({ context: context });
 	      assert.equal(slime.context.fill.calls.length, 0);
 	      slime.render();
+	    });
+	    it('should pass attributes to arc on drawSlime', function () {
+	      let context = stub().of('drawSlime').of('beginPath').of('arc').of('fill').of('closePath');
+	      let slime = new Slime({ context: context });
+	      assert.equal(slime.context.arc.calls.length, 0);
+	      slime.drawSlime();
+	      assert.equal(slime.context.arc.calls.length, 1);
+	      assert.equal(slime.context.arc.calls[0][0], 275);
+	      assert.equal(slime.context.arc.calls[0][1], 600);
+	      assert.equal(slime.context.arc.calls[0][2], 80);
+	      assert.equal(slime.context.arc.calls[0][3], Math.PI);
+	      assert.equal(slime.context.arc.calls[0][4], false);
+	    });
+	    it('should set fillStyle on drawEyes', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+	      let slime = new Slime({ context: context });
+	      assert.equal(slime.context.arc.calls.length, 0);
+	      slime.drawEyes();
+	      assert.equal(slime.context.fillStyle, 'white');
+	    });
+	    it('should drawPlayer1eye', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+	      let slime = new Slime({ context: context });
+	      assert.equal(slime.context.arc.calls.length, 0);
+	      slime.drawPlayer1Eye();
+	      assert.equal(slime.context.arc.calls.length, 1);
+	      assert.equal(slime.context.arc.calls[0][0], 318);
+	      assert.equal(slime.context.arc.calls[0][1], 546);
+	      assert.equal(slime.context.arc.calls[0][2], 10);
+	      assert.equal(slime.context.arc.calls[0][3], Math.PI * 2);
+	      assert.equal(slime.context.arc.calls[0][4], false);
+	    });
+	    it('should drawPlayer2eye', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+	      let slime = new Slime({ context: context });
+	      assert.equal(slime.context.arc.calls.length, 0);
+	      slime.drawPlayer2Eye();
+	      assert.equal(slime.context.arc.calls.length, 1);
+	      assert.equal(slime.context.arc.calls[0][0], 232);
+	      assert.equal(slime.context.arc.calls[0][1], 546);
+	      assert.equal(slime.context.arc.calls[0][2], 10);
+	      assert.equal(slime.context.arc.calls[0][3], Math.PI * 2);
+	      assert.equal(slime.context.arc.calls[0][4], false);
+	    });
+	    it('should drawPlayer1Pupil', function () {
+	      let context = stub().of('beginPath').of('arc').of('fill').of('closePath');
+	      let slime = new Slime({ context: context });
+	      let ball = new Ball();
+	      slime.ball = ball;
+	      assert.equal(slime.context.arc.calls.length, 0);
+	      slime.drawPlayer1Pupil();
+	      assert.equal(slime.context.arc.calls.length, 1);
+	      assert.equal(slime.context.arc.calls[0][0], 317.2916666666667);
+	      assert.equal(slime.context.arc.calls[0][1], 544.7857142857143);
+	      assert.equal(slime.context.arc.calls[0][2], 4);
+	      assert.equal(slime.context.arc.calls[0][3], Math.PI * 2);
+	      assert.equal(slime.context.arc.calls[0][4], false);
 	    });
 	  });
 	});
@@ -10179,6 +10237,7 @@
 
 	const chai = __webpack_require__(23);
 	const assert = chai.assert;
+	const Ball = __webpack_require__(3);
 	const stub = __webpack_require__(63);
 	const Slime = __webpack_require__(7);
 	const Player = __webpack_require__(6);
@@ -10191,6 +10250,7 @@
 	      let game = new Game();
 	      assert.equal(game.showGameOverMenu, false);
 	      assert.equal(game.showMainMenu, true);
+	      assert.equal(game.showInstructions, false);
 	      assert.equal(game.difficulty, "normal");
 	      assert.equal(game.isNewPoint, false);
 	    });
@@ -10260,6 +10320,27 @@
 	      assert.equal(player2.slime.radius, 80);
 	      game.insanePlayer2GamePoint();
 	      assert.notStrictEqual(player2.slime.radius, 20);
+	    });
+	    it("it knows if a point is scored", function () {
+	      let ball = new Ball();
+	      let scoreboard = new Scoreboard();
+	      let context = stub();
+	      let canvas = stub().of('width');
+	      let keysDown = {};
+	      let game = new Game();
+	      let player2Attributes = { context: context, canvas: canvas, keysDown: keysDown, ball: this.ball, player: "player 1" };
+	      let player2KeyCodes = { moveLeft: 65, moveRight: 68, jump: 87 };
+	      let player2 = new Player(player2Attributes, player2KeyCodes);
+	      let slime = new Slime(player2Attributes);
+	      player2.slime = slime;
+	      scoreboard.player1Score = 5;
+	      game.difficulty = "insane";
+	      this.showGameOverMenu = false;
+	      ball.x = 800;
+	      ball.y = 600;
+	      assert.equal(scoreboard.player1Score, 5);
+	      game.checkIfPointScored(canvas);
+	      assert.notStrictEqual(scoreboard.player1Score, 6);
 	    });
 	  });
 	});
