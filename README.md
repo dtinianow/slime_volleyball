@@ -10,6 +10,8 @@ Slime Volleyball is a two player game. The slime on the right of the screen is c
 
 The game features two modes of play: normal mode and insane mode.  Press `n` from the main menu to activate normal mode and `i` to activate insane mode.  During normal mode, the user can change the background of the slime arena by typing any key from `1-9`.
 
+![](http://g.recordit.co/JWsE6fDh1G.gif)
+
 At the end of each match, a player sees a Game Over screen where the score of all matches is displayed.  The players then have the option to either play again, clear the match score, or return to the main menu.  Match scores are retained using `localStorage`, and can be reset on the Game Over screen by typing `m`.  Refreshing the game on your machine will not reset your match score.
 
 Have fun!
