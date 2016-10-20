@@ -47,10 +47,10 @@ describe('Slime', function() {
       assert.isFunction(slime.drawPlayer2Pupil);
       assert.isFunction(slime.move);
       assert.isFunction(slime.updatePosition);
-      assert.isFunction(slime.shouldMoveRight);
-      assert.isFunction(slime.shouldMoveLeft);
-      assert.isFunction(slime.shouldJump);
-      assert.isFunction(slime.shouldBeJumping);
+      assert.isFunction(slime.ifMoveRight);
+      assert.isFunction(slime.ifMoveLeft);
+      assert.isFunction(slime.ifFinishJump);
+      assert.isFunction(slime.ifJumping);
       assert.isFunction(slime.isNotTouchingRightWall);
       assert.isFunction(slime.isNotTouchingLeftSideOfNet);
       assert.isFunction(slime.isNotTouchingLeftWall);
@@ -59,7 +59,7 @@ describe('Slime', function() {
       assert.isFunction(slime.moveToRight);
       assert.isFunction(slime.moveToLeft);
       assert.isFunction(slime.finishJump);
-      assert.isFunction(slime.stayStill);
+      assert.isFunction(slime.ifStayingStill);
       assert.isFunction(slime.jump);
       assert.isFunction(slime.resetPosition);
     });
