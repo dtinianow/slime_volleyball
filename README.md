@@ -1,5 +1,7 @@
 # Slime Volleyball
 
+[Play Slime Volleyball!](https://dtinianow.github.io/slime_volleyball/)
+
 ## Game Play
 
 ![](http://g.recordit.co/p24Lw2IgF3.gif)
