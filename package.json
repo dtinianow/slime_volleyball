@@ -32,6 +32,7 @@
     "mock-local-storage": "^1.0.2",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.2.0",
+    "randomcolor": "latest", 
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.10.1",
